@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmode;
+package org.firstinspires.ftc.teamcode.Opmodes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class ValueTest extends LinearOpMode {
 
-    public DcMotor leftFront, rightFront, leftBack, rightBack;
+    public DcMotor leftFront, rightFront, leftRear, rightRear;
     public DcMotor slide1, slide2, slide3;
 
     public static int anvilSlidePos, hammerSlidePos;
@@ -24,19 +24,22 @@ public class ValueTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        leftFront = this.hardwareMap.dcMotor.get("leftFront"); //expansion 2
+        //DRIVE MOTOR INITIALIZATION
+        leftFront = this.hardwareMap.dcMotor.get("leftFront");
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        rightFront = this.hardwareMap.dcMotor.get("rightFront"); //control 0
+        rightFront = this.hardwareMap.dcMotor.get("rightFront");
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftBack = this.hardwareMap.dcMotor.get("leftBack"); //expansion 3
-        leftBack.setDirection(DcMotor.Direction.REVERSE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear = this.hardwareMap.dcMotor.get("leftRear");
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        rightBack = this.hardwareMap.dcMotor.get("rightBack"); //control 4
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear = this.hardwareMap.dcMotor.get("rightRear");
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //ROBOT ACTUATION
 
         slide1 = this.hardwareMap.dcMotor.get("lefthammer"); // control 2
         slide1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

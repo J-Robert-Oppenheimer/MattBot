@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmode;
+package org.firstinspires.ftc.teamcode.ExampleOpmodes;
 //jizzle
 import android.graphics.Color;
 
@@ -13,15 +13,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.auton.dumber.MecanumDrive;
-import org.firstinspires.ftc.teamcode.dumbMap;
 
 import java.util.ArrayList;
 //change
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "UTICABLUE")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "UTICARED")
 @Config
 
-public class UTICABLUE extends LinearOpMode {
+public class UTICARED extends LinearOpMode {
     public String lowState, highState;
     public int mode;
     dumbMap dumbBot = new dumbMap(this);
@@ -119,6 +117,15 @@ public class UTICABLUE extends LinearOpMode {
             else if (mode == 2) gamepad1.setLedColor(0, 0, 255, 10000);
             else gamepad1.setLedColor(255, 255, 255, 10000);
 
+            if (gamepad1.right_trigger > 0){
+                hammerSlidePos+= (int)(gamepad2.right_trigger*10);
+                hammerSlidePos = Math.min(hammerSlidePos,2050);
+            }
+            else if (gamepad1.left_trigger > 0){
+                hammerSlidePos-= (int)(gamepad2.left_trigger*10);
+                hammerSlidePos = Math.max(hammerSlidePos,0);
+            }
+
             switch (lowState) {
                 case "init":
                     if (!wasLastL) {
@@ -140,6 +147,9 @@ public class UTICABLUE extends LinearOpMode {
                     if (gamepad1.share && !share1Last) {
                         changeStateLow("initToEmergencyLowSpit");
                     }
+//                    if (gamepad1.a && !a1Last) {
+//                        changeStateLow("manualSearchingUp");
+//                    }
                     break;
                 case "initToLime":
                     if (!wasLastL) {
@@ -222,7 +232,6 @@ public class UTICABLUE extends LinearOpMode {
                     }
 
                     result = limelight.getLatestResult();
-                    telemetry.addData("yeah:", result);
                     if (result != null) {
                         array = result.getPythonOutput();
                         if (array[0] == 1) {
@@ -372,7 +381,6 @@ public class UTICABLUE extends LinearOpMode {
                         }
                     } else {
                         if (lowTime.getElapsedTime() > 400) {
-                            gamepad2.rumble(1000);
                             changeStateLow("limeSearching");
                         }
                     }
@@ -574,6 +582,82 @@ public class UTICABLUE extends LinearOpMode {
                     if (lowTime.getElapsedTime() > 200) {
                         changeStateLow("limeToTransfer");
                     }
+//                case "manualSearchingUp":
+//                    if (!wasLastL) {
+//                        wasLastL = true;
+//
+//                        lowTurnPos = 0.53;
+//                        lowBonkPos = 0.63;
+//                        lowClawPos = 0;
+//                        snifferPos = 0.36;
+//                        lowPower = 0.5;
+//                        mode = 3;
+//                    }
+//                    if (Math.abs(gamepad1.left_stick_y) > 0) {
+//                        anvilSlidePos += (int) (gamepad1.left_stick_y * 25);
+//                        anvilSlidePos =  Math.max(Math.min(anvilSlidePos, 0), -1050);
+//                    }
+//                    if (Math.abs(gamepad1.left_stick_x) > 0) {
+//                        lowRotPos += (int) (gamepad1.left_stick_y * 0.05);
+//                        lowRotPos =  Math.max(Math.min(anvilSlidePos, 0.86),0.18);
+//                    }
+//
+//                    if (gamepad1.x) {
+//                        changeStateLow("manualSearchingDown");
+//                    }
+//                    if (gamepad1.dpad_down && !down1Last) {
+//                        changeStateLow("init");
+//                    }
+//                    break;
+//
+//                case "manualSearchingDown":
+//                    if (!wasLastL) {
+//                        wasLastL = true;
+//
+//
+//                        lowTurnPos = 0.76;
+//                        lowBonkPos = 0.72;
+//                        lowRotPos = lowRotPos;
+//                        lowClawPos = 0;
+//                        snifferPos = 0.36;
+//                        lowPower = 0.5;
+//                        mode = 3;
+//                    }
+//                    if (Math.abs(gamepad1.left_stick_y) > 0) {
+//                        anvilSlidePos += (int) (gamepad1.left_stick_y * 25);
+//                        anvilSlidePos =  Math.max(Math.min(anvilSlidePos, 0), -1050);
+//                    }
+//
+//                    if (gamepad1.a) {
+//                        changeStateLow("manualSearchingClosed");
+//                    }
+//                    if (gamepad1.dpad_down && !down1Last) {
+//                        changeStateLow("init");
+//                    }
+//                    break;
+//
+//                case "manualSearchingClosed":
+//                    if (!wasLastL) {
+//                        wasLastL = true;
+//
+//                        anvilSlidePos = anvilSlidePos;
+//                        lowTurnPos = 0.76;
+//                        lowBonkPos = 0.72;
+//                        lowRotPos = lowRotPos;
+//                        lowClawPos = 1;
+//                        snifferPos = 0.36;
+//                        lowPower = 0.5;
+//                        mode = 3;
+//                    }
+//
+//                    if (gamepad1.a) {
+//                        changeStateLow("limeHolding");
+//                    }
+//                    if (gamepad1.dpad_down && !down1Last) {
+//                        changeStateLow("init");
+//                    }
+//                    break;
+
             }
 
 //TODO line IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
@@ -656,8 +740,8 @@ public class UTICABLUE extends LinearOpMode {
                     if (!wasLastH) {
                         wasLastH = true;
 
-                        hammerSlidePos = 610;
-                        highTurnPos = 0.16;
+//                        hammerSlidePos = 610;
+//                        highTurnPos = 0.16;
                         highBonkPos = 1;
                         highClawPos = 0;
                         highPower = 1;
@@ -900,7 +984,7 @@ public class UTICABLUE extends LinearOpMode {
                     if (!wasLastH) {
                         wasLastH = true;
 
-                        hammerSlidePos = 600;//too high?
+                        hammerSlidePos = 600;
                         highTurnPos = 0.2;
                         highBonkPos = 0.15;
                         highClawPos = 0;
@@ -994,7 +1078,7 @@ public class UTICABLUE extends LinearOpMode {
                     if (gamepad1.left_bumper && !lb1Last) {
                         changeStateHigh("SpecPlaceClosedToOpen");
                         changeStateLow("limeSearching");
-                        mode = 2;
+                        mode = 0;
                     }
                     if (gamepad1.right_bumper && !rb1Last) {
                         changeStateHigh("SpecPlaceToGrab");
@@ -1085,6 +1169,8 @@ public class UTICABLUE extends LinearOpMode {
                     if (highTime.getElapsedTime() > 200) {
                         changeStateHigh("limeToTransfer");
                     }
+
+
             }
 
 

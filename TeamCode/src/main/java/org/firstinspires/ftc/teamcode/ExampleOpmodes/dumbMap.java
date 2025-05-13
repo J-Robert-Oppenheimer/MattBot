@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.ExampleOpmodes;
 
 
 import com.acmerobotics.dashboard.config.Config;
@@ -24,37 +24,47 @@ import java.util.ArrayList;
 //h
 @Config
 public class dumbMap {
-    //Define runtime
+
+    //Hardwaremaps can be used to initialize hardware and define code functions so that they can be used in \n
+    // teleop(driver control) and autonomous classes. Using functions cleans up opmodes at the cost of slight
+    //increase in computational load.
+
+
+    //Define runtime, clock to be used in other functions
     public ElapsedTime runtime = new ElapsedTime();
 
-    //Define opMode
-
+    //Define the opMode
     public OpMode opMode;
 
     //Define all hardware
 
+    //Define the code objects/interface that control the physical parts of the robot
     public VoltageSensor batteryVoltageSensor;
+
+    //Regular Motors
     public DcMotor leftFront, rightFront, leftBack, rightBack, slide, slideangle;
     public DcMotor slide1, slide2, slide3;
 
+    //Regular Servos
     public Servo lowClaw, lowRot, lowBonk, lowTurn, highClaw, highTurnB,  highTurnT, highBonkL, highBonkR, sniffer;
 
+    //Sensors and Cameras (not all are used)
     public WebcamName bonoboCam;
     public HuskyLens huskyLens; // i2c 1
     public RevColorSensorV3 ColorSensor;
     Limelight3A limelight;
-    public double multi;
-
-
-
     public DistanceSensor distanceSensor;
-    public BHI260IMU gyro;//Can we do it?
 
+    //Telemetry allows the robot to print outputs from the code and sensors for debugging
+    public Telemetry telemetry;
+
+    //Defining Variables For functions in this opMode
+    public double multi;
     public boolean halfSpeedToggle = false, qtrSpeedToggle = false, drivingReverse = false;
 
     public double drivePower;
 
-    public Telemetry telemetry;
+
     public boolean clawOpen = false, clawRot = false, flip = false;
     public boolean aLast1 = false, aLast2 = false, lbumpLast = false, rbumpLast = false, xLast = false, yLast = false, bLast = false, rstickpressLast = false, bonk = false, clawOpenH;
 
@@ -73,6 +83,10 @@ public class dumbMap {
 
     public dumbMap(LinearOpMode opMode) {this.opMode = opMode;}
 
+
+    //Init functions call the hardware from the configuration on the
+    //robot controller and usually the basic behaviors like motor direction or braking
+    //Are set in the same location.
     public void init2() {
 
         leftFront = this.opMode.hardwareMap.dcMotor.get("leftFront");
@@ -152,6 +166,8 @@ public class dumbMap {
         slide3.setPower(1);
     }
 
+
+//Simple function that averages the last 'n' numbers inside an ArrayList
     public double averageLastContents(ArrayList<Double> arr, int LOOKBACK){
         int len = arr.size();
         int count = Math.min(len, LOOKBACK);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmode;
+package org.firstinspires.ftc.teamcode.ExampleOpmodes;
 
 //luh Teleop
 //default position pos = 0.9, vpos = 1
@@ -13,8 +13,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
-import org.firstinspires.ftc.teamcode.dumbMap;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp
 @Config
