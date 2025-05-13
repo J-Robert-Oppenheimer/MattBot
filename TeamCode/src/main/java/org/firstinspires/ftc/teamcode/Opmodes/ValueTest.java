@@ -14,12 +14,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ValueTest extends LinearOpMode {
 
     public DcMotor leftFront, rightFront, leftRear, rightRear;
-    public DcMotor slide1, slide2, slide3;
+    public DcMotor slide1, slide2, spinner;
 
     public static int anvilSlidePos, hammerSlidePos;
     public static double lowTurnPos, lowBonkPos, lowRotPos, lowClawPos, highTurnPos, highBonkPos, highClawPos, llServoPos;
 
-    public Servo lowClaw, lowRot, lowBonk, lowTurn, highClaw, highTurnT, highTurnB, highBonkL, highBonkR, llServo;
+    public Servo outtakeTurn, outtakeOpen, outtakeLift, outtakeRotate, outtakeSlideLiftLeft, outtakeSideLiftRight,intakeLiftRight,intakeliftLeft;
 
     @Override
     public void runOpMode() {
@@ -41,32 +41,27 @@ public class ValueTest extends LinearOpMode {
 
         //ROBOT ACTUATION
 
-        slide1 = this.hardwareMap.dcMotor.get("lefthammer"); // control 2
+        slide1 = this.hardwareMap.dcMotor.get("slide1"); // control 2
         slide1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slide1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slide1.setTargetPosition(0);
         slide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        slide2 = this.hardwareMap.dcMotor.get("righthammer"); // expansion 1 , 0 is empty
+        slide2 = this.hardwareMap.dcMotor.get("slide2"); // expansion 1 , 0 is empty
         slide2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slide2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slide2.setDirection(DcMotorSimple.Direction.REVERSE);
         slide2.setTargetPosition(0);
         slide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        slide3 = this.hardwareMap.dcMotor.get("anvilslide"); // control 1
-        slide3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        slide3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slide3.setDirection(DcMotorSimple.Direction.REVERSE);
-        slide3.setTargetPosition(0);
-        slide3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        spinner = this.hardwareMap.dcMotor.get("anvilslide"); // control 1
+        spinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        spinner.setDirection(DcMotorSimple.Direction.REVERSE);
+        
         slide1.setTargetPosition(0);
         slide2.setTargetPosition(0);
-        slide3.setTargetPosition(0);
         slide1.setPower(1);
         slide2.setPower(1);
-        slide3.setPower(1);
 
         lowClaw = this.hardwareMap.get(Servo.class, "lowClaw" ); // 0.4 (close) 0.6 (open)    control 4
         lowRot = this.hardwareMap.get(Servo.class, "lowRot" ); // 0.2 (right) 0.53 (perp) 0.86 (left)    control 0
@@ -89,7 +84,7 @@ public class ValueTest extends LinearOpMode {
             slide1.setTargetPosition(hammerSlidePos); // spec grab 700 spec place 900
             slide2.setTargetPosition(hammerSlidePos);
 
-            slide3.setTargetPosition(anvilSlidePos);
+            spinner.setTargetPosition(anvilSlidePos);
 
             if (lowTurnPos != 0) lowTurn.setPosition(lowTurnPos);
             if (lowBonkPos != 0) lowBonk.setPosition(lowBonkPos);
