@@ -17,9 +17,9 @@ public class ValueTest extends LinearOpMode {
     public DcMotor slide1, slide2, spinner;
 
     public static int anvilSlidePos, hammerSlidePos;
-    public static double lowTurnPos, lowBonkPos, lowRotPos, lowClawPos, highTurnPos, highBonkPos, highClawPos, llServoPos;
+    public static double outtakeRotatePos, outtakeLiftPos, outtakeOpenPos, outtakeTurnPos, intakeLiftPos, outtakeSlideLiftRightPos, outtakeSlideLiftLeftPos;
 
-    public Servo outtakeTurn, outtakeOpen, outtakeLift, outtakeRotate, outtakeSlideLiftLeft, outtakeSideLiftRight,intakeLiftRight,intakeliftLeft;
+    public Servo outtakeTurn, outtakeOpen, outtakeLift, outtakeRotate, outtakeSlideLiftLeft, outtakeSlideLiftRight,intakeLiftRight,intakeLiftLeft;
 
     @Override
     public void runOpMode() {
@@ -54,7 +54,7 @@ public class ValueTest extends LinearOpMode {
         slide2.setTargetPosition(0);
         slide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        spinner = this.hardwareMap.dcMotor.get("anvilslide"); // control 1
+        spinner = this.hardwareMap.dcMotor.get("spinner"); // control 1
         spinner.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         spinner.setDirection(DcMotorSimple.Direction.REVERSE);
         
@@ -63,20 +63,17 @@ public class ValueTest extends LinearOpMode {
         slide1.setPower(1);
         slide2.setPower(1);
 
-        lowClaw = this.hardwareMap.get(Servo.class, "lowClaw" ); // 0.4 (close) 0.6 (open)    control 4
-        lowRot = this.hardwareMap.get(Servo.class, "lowRot" ); // 0.2 (right) 0.53 (perp) 0.86 (left)    control 0
-        lowBonk = this.hardwareMap.get(Servo.class, "lowBonk" ); // 0.75 (down) 0.45 (up) 0.2  (back) 0.6 (searching)    control 3
-        lowTurn = this.hardwareMap.get(Servo.class, "lowTurn" ); // 0.35 max right 0.54 mid // 0.81 left    control 4
-        llServo = this.hardwareMap.get(Servo.class, "llServo" ); // 0.8 out 0.25 in    control 5
+        outtakeTurn = this.hardwareMap.get(Servo.class, "outtakeTurn" ); // 0.4 (close) 0.6 (open)    control 4
+        outtakeOpen = this.hardwareMap.get(Servo.class, "outtakeOpen" ); // 0.2 (right) 0.53 (perp) 0.86 (left)    control 0
+        outtakeLift = this.hardwareMap.get(Servo.class, "outtakeLift" ); // 0.75 (down) 0.45 (up) 0.2  (back) 0.6 (searching)    control 3
+        outtakeRotate = this.hardwareMap.get(Servo.class, "outtakeRotate" ); // 0.35 max right 0.54 mid // 0.81 left    control 4
+        outtakeSlideLiftLeft = this.hardwareMap.get(Servo.class, "outtakeSlideLiftLeft" ); // 0.8 out 0.25 in    control 5
 
 
-        highClaw = this.hardwareMap.get(Servo.class, "highClaw" ); // 0.78 (close) 0.99 (open)      expansion 1
-        highBonkL = this.hardwareMap.get(Servo.class, "highBonkL" );// spec grab  0.105 spec place 0.135(little more?) blockplace 0.2 transfer 0.26 up 0.185
-        highBonkR = this.hardwareMap.get(Servo.class, "highBonkR" );// expansion 2L and 3R
-        highBonkR.setDirection(Servo.Direction.REVERSE);
-        highTurnB = this.hardwareMap.get(Servo.class, "highTurnB" ); // spec grab 0.185 spec place 0.75 blockplace 0.8// transfer 0.17
-        highTurnT = this.hardwareMap.get(Servo.class, "highTurnT" );// expansion 4B and 5T
-        highTurnT.setDirection(Servo.Direction.REVERSE);
+        outtakeSlideLiftRight = this.hardwareMap.get(Servo.class, "outtakeSlideLiftRight" ); // 0.78 (close) 0.99 (open)      expansion 1
+        intakeLiftRight = this.hardwareMap.get(Servo.class, "intakeLiftRight" );// spec grab  0.105 spec place 0.135(little more?) blockplace 0.2 transfer 0.26 up 0.185
+        intakeLiftLeft = this.hardwareMap.get(Servo.class, "intakeLiftLeft" );// expansion 2L and 3R
+        intakeLiftLeft.setDirection(Servo.Direction.REVERSE);
         waitForStart();
 
         while (opModeIsActive()) {
@@ -86,20 +83,16 @@ public class ValueTest extends LinearOpMode {
 
             spinner.setTargetPosition(anvilSlidePos);
 
-            if (lowTurnPos != 0) lowTurn.setPosition(lowTurnPos);
-            if (lowBonkPos != 0) lowBonk.setPosition(lowBonkPos);
-            if (lowRotPos != 0) lowRot.setPosition(lowRotPos);
-            if (lowClawPos != 0) lowClaw.setPosition(lowClawPos);
-            if (llServoPos != 0) llServo.setPosition(llServoPos);
-            if (highTurnPos != 0) {
-                highTurnB.setPosition(highTurnPos);
-                highTurnT.setPosition(highTurnPos);
+            if (outtakeRotatePos != 0) outtakeRotate.setPosition(outtakeRotatePos);
+            if (outtakeLiftPos != 0) outtakeLift.setPosition(outtakeLiftPos);
+            if (outtakeOpenPos != 0) outtakeOpen.setPosition(outtakeOpenPos);
+            if (outtakeTurnPos != 0) outtakeTurn.setPosition(outtakeTurnPos);
+            if (outtakeSlideLiftLeftPos != 0) outtakeSlideLiftLeft.setPosition(outtakeSlideLiftLeftPos);
+            if (intakeLiftPos != 0) {
+                intakeLiftLeft.setPosition(intakeLiftPos);
+                intakeLiftRight.setPosition(intakeLiftPos);
             }
-            if (highBonkPos != 0) {
-                highBonkR.setPosition(highBonkPos);
-                highBonkL.setPosition(highBonkPos);
-            }
-            if (highClawPos != 0) highClaw.setPosition(highClawPos);
+            if (outtakeSlideLiftRightPos != 0) outtakeSlideLiftRight.setPosition(outtakeSlideLiftRightPos);
 
             telemetry.update();
 
